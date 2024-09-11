@@ -1,0 +1,105 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model categories {
+  category_id Int          @id @default(autoincrement())
+  name        String
+  furnitures  furnitures[]
+}
+
+model colors {
+  color_id                                      Int          @id @default(autoincrement())
+  name                                          String?
+  furnitures_furnitures_color_mainTocolors      furnitures[] @relation("furnitures_color_mainTocolors")
+  furnitures_furnitures_color_secondaryTocolors furnitures[] @relation("furnitures_color_secondaryTocolors")
+}
+
+model conditions {
+  condition_id Int          @id @default(autoincrement())
+  name         String
+  furnitures   furnitures[]
+}
+
+model furniture_user {
+  id           Int         @id @default(autoincrement())
+  furniture_id Int?
+  user_id      Int?
+  furnitures   furnitures? @relation(fields: [furniture_id], references: [furniture_id], onDelete: NoAction, onUpdate: NoAction)
+  users        users?      @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model furnitures {
+  furniture_id                              Int              @id @default(autoincrement())
+  category                                  Int?             @db.SmallInt
+  material                                  Int?             @db.SmallInt
+  condition                                 Int?             @db.SmallInt
+  color_main                                Int?             @db.SmallInt
+  color_secondary                           Int?             @default(9) @db.SmallInt
+  dimensions                                String
+  price                                     Int
+  image                                     String?
+  description                               String?
+  state                                     Int?             @default(1) @db.SmallInt
+  furniture_user                            furniture_user[]
+  categories                                categories?      @relation(fields: [category], references: [category_id], onDelete: NoAction, onUpdate: NoAction)
+  colors_furnitures_color_mainTocolors      colors?          @relation("furnitures_color_mainTocolors", fields: [color_main], references: [color_id], onDelete: NoAction, onUpdate: NoAction)
+  colors_furnitures_color_secondaryTocolors colors?          @relation("furnitures_color_secondaryTocolors", fields: [color_secondary], references: [color_id], onDelete: NoAction, onUpdate: NoAction)
+  conditions                                conditions?      @relation(fields: [condition], references: [condition_id], onDelete: NoAction, onUpdate: NoAction)
+  materials                                 materials?       @relation(fields: [material], references: [material_id], onDelete: NoAction, onUpdate: NoAction)
+  state_furnitures_stateTostate             state?           @relation("furnitures_stateTostate", fields: [state], references: [state_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model materials {
+  material_id Int          @id @default(autoincrement())
+  name        String
+  furnitures  furnitures[]
+}
+
+model roles {
+  role_id Int     @id @default(autoincrement())
+  name    String
+  users   users[]
+}
+
+model state {
+  state_id                           Int          @id @default(autoincrement())
+  name                               String
+  furnitures_furnitures_stateTostate furnitures[] @relation("furnitures_stateTostate")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model test {
+  id      Int     @default(autoincrement())
+  name    String?
+  surname String?
+
+  @@ignore
+}
+
+model users {
+  user_id        Int              @id @default(autoincrement())
+  role           Int?             @default(2) @db.SmallInt
+  name           String
+  surname        String
+  email          String
+  password       String
+  phone          Int?             @db.SmallInt
+  address        String?
+  furniture_user furniture_user[]
+  sessions       sessions[]
+  roles          roles?           @relation(fields: [role], references: [role_id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model sessions {
+  id        Int      @id @default(autoincrement())
+  userid    Int?
+  expiresat DateTime @db.Timestamptz(3)
+  createdat DateTime @default(now()) @db.Timestamptz(3)
+  users     users?   @relation(fields: [userid], references: [user_id], onDelete: NoAction, onUpdate: NoAction)
+}

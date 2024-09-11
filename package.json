@@ -1,0 +1,38 @@
+{
+  "name": "mobel",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "server": "dotenv -- node serveur_api/serveurtest.js",
+    "server:maureen": "dotenv -- nodemon serveur_api/index.js",
+    "db:generate-migration": "prisma migrate dev --schema serveur_api/prisma/schema.prisma",
+    "db:pull": "prisma db pull --schema serveur_api/prisma/schema.prisma",
+    "db:generate-client": "prisma generate --schema serveur_api/prisma/schema.prisma"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.16.1",
+    "bcrypt": "^5.1.1",
+    "express": "^4.19.2",
+    "flowbite-react": "^0.10.1",
+    "lucide-react": "^0.396.0",
+    "next": "14.2.4",
+    "pg": "^8.12.0",
+    "react": "^18",
+    "react-dom": "^18",
+    "swr": "^2.2.5"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.19",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "dotenv-cli": "^7.4.2",
+    "nodemon": "^3.1.4",
+    "postcss": "^8.4.38",
+    "prisma": "^5.16.1",
+    "tailwindcss": "^3.4.4"
+  }
+}

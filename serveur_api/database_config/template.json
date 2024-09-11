@@ -1,0 +1,18 @@
+{
+    "id": "215",
+    "seller_id": "1",
+    "category": "table",
+    "material": "fer",
+    "dimensions": "180x50x50",
+    "color_main": "jaune",
+    "color_secondary": null,
+    "condition": "Comme neuf",
+    "price": "1245",
+    "image": "Format encore inconnu comme réponse, sorry Y_Y, je pense que c'est une url",
+    "description": "Blah blah, c'est un super meuble que je vends!",
+    "state": [
+        "standby",
+        "validated",
+        "deleted"
+    ]
+}
